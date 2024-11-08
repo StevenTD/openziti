@@ -35,7 +35,6 @@ services:
       - "/var/openziti/scripts/run-controller.sh"
 
   ziti-controller-init-container:
-    # restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     depends_on:
       ziti-controller:
