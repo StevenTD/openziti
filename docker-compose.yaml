@@ -1,5 +1,6 @@
 services:
   ziti-controller:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     healthcheck:
       test: curl -m 1 -s -k https://${ZITI_CTRL_EDGE_ADVERTISED_ADDRESS:-ziti-edge-controller}:${ZITI_CTRL_EDGE_ADVERTISED_PORT:-1280}/edge/client/v1/version
@@ -34,6 +35,7 @@ services:
       - "/var/openziti/scripts/run-controller.sh"
 
   ziti-controller-init-container:
+    # restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     depends_on:
       ziti-controller:
@@ -58,6 +60,7 @@ services:
       - "/var/openziti/scripts/access-control.sh"
 
   ziti-edge-router:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -86,6 +89,7 @@ services:
     command: "/var/openziti/scripts/run-router.sh edge"
 
   ziti-edge-router-wss:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -116,6 +120,7 @@ services:
     command: "/var/openziti/scripts/run-router.sh wss"
 
   ziti-fabric-router-br:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -139,6 +144,7 @@ services:
     command: "/var/openziti/scripts/run-router.sh fabric"
 
   ziti-private-red:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -161,6 +167,7 @@ services:
     command: "/var/openziti/scripts/run-router.sh private"
 
   ziti-private-blue:
+    restart: always
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -183,6 +190,7 @@ services:
     command: "/var/openziti/scripts/run-router.sh private"
 
   web-test-blue:
+    restart: always
     image: openziti/hello-world
     ports:
       - ${ZITI_INTERFACE:-0.0.0.0}:80:8000
@@ -194,6 +202,7 @@ services:
           - web.test.blue
 
   ziti-console:
+    restart: always
     image: openziti/zac
     working_dir: /usr/src/app
     environment:
@@ -222,4 +231,3 @@ networks:
 
 volumes:
   ziti-fs:
-
