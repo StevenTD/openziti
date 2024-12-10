@@ -86,7 +86,6 @@ services:
     command: "/var/openziti/scripts/run-router.sh edge"
 
   ziti-edge-router-wss:
-    # restart: on-failure
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -95,7 +94,7 @@ services:
         condition: service_healthy
     ports:
       - ${ZITI_INTERFACE:-0.0.0.0}:${ZITI_ROUTER_WSS_PORT:-3023}:${ZITI_ROUTER_WSS_PORT:-3023}
-      - ${ZITI_INTERFACE:-0.0.0.0}:${ZITI_ROUTER_LISTENER_BIND_PORT_WSS:-10081}:${ZITI_ROUTER_LISTENER_BIND_PORT_WSS:-10081}
+      - ${ZITI_INTERFACE:-0.0.0.0}:${ZITI_ROUTER_LISTENER_BIND_PORT:-10081}:${ZITI_ROUTER_LISTENER_BIND_PORT:-10081}
     environment:
       - ZITI_CTRL_ADVERTISED_ADDRESS=${ZITI_CTRL_ADVERTISED_ADDRESS:-ziti-controller}
       - ZITI_CTRL_ADVERTISED_PORT=${ZITI_CTRL_ADVERTISED_PORT:-6262}
@@ -104,7 +103,7 @@ services:
       - ZITI_ROUTER_NAME=${ZITI_ROUTER_NAME:-ziti-edge-router-wss}
       - ZITI_ROUTER_ADVERTISED_ADDRESS=${ZITI_ROUTER_ADVERTISED_ADDRESS:-ziti-edge-router-wss}
       - ZITI_ROUTER_PORT=${ZITI_ROUTER_WSS_PORT:-3023}
-      - ZITI_ROUTER_LISTENER_BIND_PORT_WSS=${ZITI_ROUTER_LISTENER_BIND_PORT_WSS:-10081}
+      - ZITI_ROUTER_LISTENER_BIND_PORT=${ZITI_ROUTER_LISTENER_BIND_PORT:-10081}
       - ZITI_ROUTER_ROLES=public
       - ZITI_PKI_ALT_SERVER_CERT=${ZITI_PKI_ALT_SERVER_CERT:-}
       - ZITI_PKI_ALT_SERVER_KEY=${ZITI_PKI_ALT_SERVER_KEY:-}
@@ -117,7 +116,6 @@ services:
     command: "/var/openziti/scripts/run-router.sh wss"
 
   ziti-fabric-router-br:
-    # restart: on-failure
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -141,7 +139,6 @@ services:
     command: "/var/openziti/scripts/run-router.sh fabric"
 
   ziti-private-red:
-    # restart: on-failure
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -164,7 +161,6 @@ services:
     command: "/var/openziti/scripts/run-router.sh private"
 
   ziti-private-blue:
-    # restart: on-failure
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
     env_file:
       - ./.env
@@ -187,7 +183,6 @@ services:
     command: "/var/openziti/scripts/run-router.sh private"
 
   web-test-blue:
-    # restart: on-failure
     image: openziti/hello-world
     ports:
       - ${ZITI_INTERFACE:-0.0.0.0}:80:8000
@@ -199,7 +194,6 @@ services:
           - web.test.blue
 
   ziti-console:
-    # restart: on-failure
     image: openziti/zac
     working_dir: /usr/src/app
     environment:

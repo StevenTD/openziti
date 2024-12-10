@@ -39,8 +39,11 @@ services:
       - ziti-fs:/persistent
     entrypoint:
       - "/var/openziti/scripts/run-with-ziti-cli.sh"
-    command:
-      - "/var/openziti/scripts/access-control.sh"
+    command: >
+      bash -c "
+      hostname \$ZITI_CTRL_ADVERTISED_ADDRESS &&
+      /var/openziti/scripts/access-control.sh
+      "
 
   ziti-edge-router:
     image: "${ZITI_IMAGE}:${ZITI_VERSION}"
@@ -65,7 +68,12 @@ services:
     volumes:
       - ziti-fs:/persistent
     entrypoint: /bin/bash
-    command: "/var/openziti/scripts/run-router.sh edge"
+    command: >
+      bash -c "
+      hostname \$ZITI_CTRL_ADVERTISED_ADDRESS &&
+      /var/openziti/scripts/run-router.sh edge
+      "
+
 
   ziti-console:
     image: openziti/zac

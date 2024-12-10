@@ -4,6 +4,6 @@ services:
       context: ./proxy
     restart: always
     ports:
-      - 0.0.0.0:8001:8000
+      - 0.0.0.0:8888:8000
     volumes:
       - ./proxy/frontend:/vol/static/fire/frontend
