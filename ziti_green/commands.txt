@@ -1,0 +1,6 @@
+mkdir -p complex
+curl -so complex/compose.yml https://gist.githubusercontent.com/dovholuknf/6ce8c3cfd47ae60a0aaabdc0bbd6c1b8/raw/53520db4c16d034d99364f946244c300b2acd8d9/ziti-compose.yml
+curl -so complex/.env https://get.openziti.io/dock/.env
+mkdir -p zitigreen
+curl -so zitigreen/compose.yml https://gist.githubusercontent.com/dovholuknf/be7bdeb1f000e0448541331fb623f265/raw/596cfedba2fb04a4a6fe1d3eb82031d6c93d87b5/zitigreen-compose.yml
+curl -so zitigreen/configure-ziti.sh https://gist.githubusercontent.com/dovholuknf/3ad20ec07f05ae30de2bb7092bde40cd/raw/291bf526ddf343e63db2d3a909d876061a48c5de/zitigreen-configure-ziti.sh

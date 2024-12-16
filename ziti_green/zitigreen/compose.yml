@@ -1,0 +1,45 @@
+services:
+  ziti-private-green:
+    image: "openziti/ziti-router"
+    env_file:
+      - ../complex/.env
+      - ./.env
+    user: root
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=${ZITI_CTRL_ADVERTISED_ADDRESS:-ziti-controller}
+      - ZITI_CTRL_ADVERTISED_PORT=${ZITI_CTRL_ADVERTISED_PORT:-6262}
+      - ZITI_CTRL_EDGE_ADVERTISED_ADDRESS=${ZITI_CTRL_EDGE_ADVERTISED_ADDRESS:-ziti-edge-controller}
+      - ZITI_CTRL_EDGE_ADVERTISED_PORT=${ZITI_CTRL_EDGE_ADVERTISED_PORT:-1280}
+      - ZITI_ROUTER_NAME=ziti-private-green
+      - ZITI_ROUTER_ADVERTISED_ADDRESS=ziti-private-green
+      - ZITI_ROUTER_ROLES=ziti-private-green
+      - ZITI_ROUTER_MODE=tproxy
+      - ZITI_CTRL_ADVERTISED_PORT=6262
+      - ZITI_BOOTSTRAP_CONFIG_ARGS="--private"
+    networks:
+      - zitigreen
+    volumes:
+      - ziti-fs:/persistent
+
+  ziti-private-green-client:
+    image: openziti/quickstart
+    command: >
+      bash -c '
+        while true; do
+          curl -s http://http-web-test-blue.ziti:8000
+          sleep 5
+        done
+      '
+    network_mode: service:ziti-private-green
+
+networks:
+  zitigreen:
+    external: true
+
+volumes:
+  ziti-fs:
